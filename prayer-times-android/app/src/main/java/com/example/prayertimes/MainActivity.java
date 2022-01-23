@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         month = Integer.parseInt(data[1]);
         day = Integer.parseInt(data[2]);
 
-        int MMdd = month * 100 + day;
-        System.out.println("key from main: " + MMdd);
-        DayParts dp = dc.getDayParts(MMdd);
+        int mdd = month * 100 + day;
+        System.out.println("key from main: " + mdd);
+        DayParts dp = dc.getDayParts(mdd);
         fajr = dp.getFajr();
         System.out.println("fajr from main: " + fajr);
         sunrise = dp.getSunrise();

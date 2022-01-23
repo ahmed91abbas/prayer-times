@@ -148,8 +148,8 @@ public class PrayerTimes {
 		month = Integer.parseInt(data[1]);
 		day = Integer.parseInt(data[2]);
 
-		int MMdd = month * 100 + day;
-		DayParts dp = dc.getDayParts(MMdd);
+		int mdd = month * 100 + day;
+		DayParts dp = dc.getDayParts(mdd);
 		fajr = dp.getFajr();
 		sunrise = dp.getSunrise();
 		zohar = dp.getZohar();

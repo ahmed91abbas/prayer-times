@@ -31,7 +31,7 @@ public class DataCenter {
 			while (scan != null && scan.hasNext()) {
 				String line = scan.nextLine();
 				String[] times = line.split(" ");
-				int key = monthNbr * 100 + Integer.parseInt(times[0]); // MMdd
+				int key = monthNbr * 100 + Integer.parseInt(times[0]); // mdd
 				int fajr = Integer.parseInt(times[1]);
 				int sunrise = Integer.parseInt(times[2]);
 				int zohar = Integer.parseInt(times[3]);
@@ -49,7 +49,7 @@ public class DataCenter {
 		}
 	}
 
-	public DayParts getDayParts(int MMdd) {
-		return data.get(MMdd);
+	public DayParts getDayParts(int mdd) {
+		return data.get(mdd);
 	}
 }
