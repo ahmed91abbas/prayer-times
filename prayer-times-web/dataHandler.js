@@ -1,7 +1,7 @@
 const url = 'https://raw.githubusercontent.com/ahmed91abbas/prayer-times/gh-pages/prayer-times-web/prayer-times-malmo.json';
 
 function loadTableData(data) {
-    const table = document.getElementById("testBody");
+    const table = document.getElementById("timesBody");
     const month = data[0];
     month.forEach((day, i) => {
         let row = table.insertRow();
@@ -9,7 +9,7 @@ function loadTableData(data) {
         dayNbr.innerHTML = i + 1;
         day.forEach((time, j) => {
             let cell = row.insertCell(j+1);
-            cell.innerHTML = time;
+            cell.innerHTML = `${time.slice(0, 2)}:${time.slice(2)}`;
         })
     })
 }
