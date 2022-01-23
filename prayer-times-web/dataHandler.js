@@ -1,18 +1,21 @@
 const url = 'https://raw.githubusercontent.com/ahmed91abbas/prayer-times/gh-pages/prayer-times-web/prayer-times-malmo.json';
 
-
-function writeToDocument(data) {
-    data.forEach((month) => {
-        month.forEach((day) => {
-            document.write(JSON.stringify(day, null, 2));
-            document.write('<br>');
+function loadTableData(data) {
+    const table = document.getElementById("testBody");
+    const month = data[0];
+    month.forEach((day, i) => {
+        let row = table.insertRow();
+        let dayNbr = row.insertCell(0);
+        dayNbr.innerHTML = i + 1;
+        day.forEach((time, j) => {
+            let cell = row.insertCell(j+1);
+            cell.innerHTML = time;
         })
-        document.write('<br>');
     })
 }
 
 fetch(url)
     .then((response) => response.json())
     .then((responseJSON) => {
-        writeToDocument(responseJSON);
+        loadTableData(responseJSON);
     });
