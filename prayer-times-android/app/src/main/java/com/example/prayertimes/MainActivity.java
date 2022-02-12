@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.widget.TextView;
-import android.widget.ArrayAdapter;import android.widget.ListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
