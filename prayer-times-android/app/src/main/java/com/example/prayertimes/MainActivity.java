@@ -1,13 +1,13 @@
 package com.example.prayertimes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private long diff, t;
     private Thread myThread;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         dc = new DataCenter(getAssets());
 
-        dateTextView = (TextView)findViewById(R.id.dateTextView);
-        infoTextView = (TextView)findViewById(R.id.infoTextView);
-        timeRemainingTextView = (TextView)findViewById(R.id.timeRemainingTextView);
-        scheduleList = (ListView)findViewById(R.id.scheduleListView);
+        dateTextView = (TextView) findViewById(R.id.dateTextView);
+        infoTextView = (TextView) findViewById(R.id.infoTextView);
+        timeRemainingTextView = (TextView) findViewById(R.id.timeRemainingTextView);
+        scheduleList = (ListView) findViewById(R.id.scheduleListView);
         scheduleList.setEnabled(false);
 
         onStartUp();
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         ListViewHelper.adjustListViewSize(scheduleList);
 
     }
+
     private String fixFormatHHmm(int nbr) {
         int hh = nbr / 100;
         int mm = nbr % 100;

@@ -8,7 +8,7 @@ public class DayParts {
     private int magrib;
     private int isha;
 
-    public DayParts(int fajr,int sunrise,int zohar,int asar,int magrib,int isha){
+    public DayParts(int fajr, int sunrise, int zohar, int asar, int magrib, int isha) {
         this.fajr = fajr;
         this.sunrise = sunrise;
         this.zohar = zohar;
