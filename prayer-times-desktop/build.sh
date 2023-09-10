@@ -1,6 +1,7 @@
-javac -d . DayParts.java
-javac -d . DataCenter.java
-javac -encoding utf8 -d . PrayerTimes.java
-mkdir -p output
-jar cmvf META-INF/MANIFEST.MF output/prayer-times.jar assets prayertimes
-java -jar output/prayer-times.jar
+rm -rf build
+mkdir -p build
+javac -d build -encoding utf8 -cp "libs/*.jar" src/prayertimes/*.java
+# java -cp "build;libs/json-20230618.jar" prayertimes/PrayerTimes
+unzip "libs/*.jar" -d build
+jar cvfm build/prayer-times.jar META-INF/MANIFEST.MF -C build .
+java -jar build/prayer-times.jar

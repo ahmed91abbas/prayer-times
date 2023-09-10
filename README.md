@@ -1,6 +1,8 @@
 # Prayer Times
 
-Mono-repo with prayer times app for different platforms. The times included are for Malmö - Sweden
+Mono-repository containing a prayer times application designed for various platforms. The prayer times data is sourced from the https://time.my-masjid.com/ API associated with the "Islamiska Förbundet i Malmö."
+
+The "my-masjid" project already offers a well-crafted Android and web application for displaying prayer times. This repository primarily focuses on developing a lightweight version of the Android app and generating a JAR (Java Archive) file that can serve as a desktop application.
 
 ## Latest release
 
