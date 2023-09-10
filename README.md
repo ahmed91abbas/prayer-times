@@ -8,4 +8,3 @@ Mono-repo with prayer times app for different platforms. The times included are 
 | ------- | -------------------------------------------------------------------------------------- |
 | Android | https://github.com/ahmed91abbas/prayer-times/releases/latest/download/prayer-times.apk |
 | Desktop | https://github.com/ahmed91abbas/prayer-times/releases/latest/download/prayer-times.jar |
-| Web     | https://ahmed91abbas.github.io/prayer-times/prayer-times-web/                          |
