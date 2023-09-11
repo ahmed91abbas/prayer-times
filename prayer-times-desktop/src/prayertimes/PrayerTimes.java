@@ -174,7 +174,7 @@ public class PrayerTimes {
 			isha -= 100;
 		}
 
-		dateLabel.setText(year + "/" + month + "/" + day);
+		dateLabel.setText(String.format("%04d-%02d-%02d", year, month, day));
 		dayParts[0].setText(fixFormatHHmm(fajr));
 		dayParts[1].setText("فجر:");
 		dayParts[2].setText(fixFormatHHmm(sunrise));
