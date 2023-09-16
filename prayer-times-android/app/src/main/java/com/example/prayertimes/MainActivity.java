@@ -39,15 +39,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dc = new DataCenter(getAssets());
-
         dateTextView = (TextView) findViewById(R.id.dateTextView);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
         timeRemainingTextView = (TextView) findViewById(R.id.timeRemainingTextView);
         scheduleList = (ListView) findViewById(R.id.scheduleListView);
         scheduleList.setEnabled(false);
 
-        onStartUp();
         t = System.currentTimeMillis();
         myThread = new CountDownThread();
         myThread.start();
@@ -88,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
             magrib -= 100;
             isha -= 100;
         }
-
-        dateTextView.setText(date);
-
         String[] countryList = {
                 "فجر: " + fixFormatHHmm(fajr),
                 "شمس: " + fixFormatHHmm(sunrise),
@@ -100,9 +94,11 @@ public class MainActivity extends AppCompatActivity {
                 "عشاء: " + fixFormatHHmm(isha),
         };
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.scheduleTextView, countryList);
-        scheduleList.setAdapter(arrayAdapter);
-        ListViewHelper.adjustListViewSize(scheduleList);
-
+        runOnUiThread(() -> {
+            dateTextView.setText(date);
+            scheduleList.setAdapter(arrayAdapter);
+            ListViewHelper.adjustListViewSize(scheduleList);
+        });
     }
 
     private String fixFormatHHmm(int nbr) {
@@ -186,15 +182,12 @@ public class MainActivity extends AppCompatActivity {
         int MMprayer = prayerTime % 100;
         int HHcurrentTime = currentTime / 100;
         int MMcurrentTime = currentTime % 100;
-
         int newHH = HHprayer - HHcurrentTime;
         int newMM = MMprayer - MMcurrentTime;
-
         if (newMM < 0) {
             newMM = 60 + newMM;
             newHH--;
         }
-
         return fixFormat(newHH) + ":" + fixFormat(newMM);
     }
 
@@ -202,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
         String s = "";
         if (nbr < 10)
             s += "0";
-
         return s + nbr;
     }
 
@@ -225,17 +217,18 @@ public class MainActivity extends AppCompatActivity {
     class CountDownThread extends Thread {
         // @Override
         public void run() {
+            dc = new DataCenter();
+            onStartUp();
             while (!Thread.currentThread().isInterrupted()) {
-
                 try {
                     doWork();
                     t += 1000;
                     diff = t - System.currentTimeMillis();
                     if (diff > 0)
                         Thread.sleep(diff);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                } catch (Exception e) {
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    } catch (Exception e) {
                 }
             }
         }
