@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         SpannableString ss = new SpannableString(info);
         ss.setSpan(new RelativeSizeSpan(2f), startPos, endPos, 0);
         infoTextView.setText(ss);
-        infoTextView.refreshDrawableState();
+        infoTextView.requestLayout();
     }
 
     private String countDiff(int prayerTime, int currentTime) {
