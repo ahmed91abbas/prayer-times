@@ -157,23 +157,6 @@ public class PrayerTimes {
 		magrib = dp.getMagrib();
 		isha = dp.getIsha();
 
-		if (TimeZone.getDefault().inDaylightTime(new Date()) && month == 3) {
-			fajr += 100;
-			sunrise += 100;
-			zohar += 100;
-			asar += 100;
-			magrib += 100;
-			isha += 100;
-		}
-		if (!TimeZone.getDefault().inDaylightTime(new Date()) && month == 10) {
-			fajr -= 100;
-			sunrise -= 100;
-			zohar -= 100;
-			asar -= 100;
-			magrib -= 100;
-			isha -= 100;
-		}
-
 		dateLabel.setText(String.format("%04d-%02d-%02d", year, month, day));
 		dayParts[0].setText(fixFormatHHmm(fajr));
 		dayParts[1].setText("فجر:");
@@ -187,7 +170,6 @@ public class PrayerTimes {
 		dayParts[9].setText("مغرب:");
 		dayParts[10].setText(fixFormatHHmm(isha));
 		dayParts[11].setText("عشاء:");
-
 	}
 
 	private String fixFormatHHmm(int nbr) {
@@ -196,12 +178,9 @@ public class PrayerTimes {
 		String s = "";
 		if (hh < 10)
 			s += "0";
-
 		s += hh + ":";
-
 		if (mm < 10)
 			s += "0";
-
 		return s + mm;
 	}
 
@@ -226,7 +205,6 @@ public class PrayerTimes {
 		String s = "";
 		if (nbr < 10)
 			s += "0";
-
 		return s + nbr;
 	}
 
@@ -298,7 +276,6 @@ public class PrayerTimes {
 		// @Override
 		public void run() {
 			while (!Thread.currentThread().isInterrupted()) {
-
 				try {
 					doWork();
 					t += 1000;
@@ -317,5 +294,4 @@ public class PrayerTimes {
 	public static void main(String[] args) {
 		PrayerTimes main = new PrayerTimes();
 	}
-
 }

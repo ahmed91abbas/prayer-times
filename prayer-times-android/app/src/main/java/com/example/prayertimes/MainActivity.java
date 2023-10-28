@@ -69,22 +69,6 @@ public class MainActivity extends AppCompatActivity {
         magrib = dp.getMagrib();
         isha = dp.getIsha();
 
-        if (TimeZone.getDefault().inDaylightTime(new Date()) && month == 3) {
-            fajr += 100;
-            sunrise += 100;
-            zohar += 100;
-            asar += 100;
-            magrib += 100;
-            isha += 100;
-        }
-        if (!TimeZone.getDefault().inDaylightTime(new Date()) && month == 10) {
-            fajr -= 100;
-            sunrise -= 100;
-            zohar -= 100;
-            asar -= 100;
-            magrib -= 100;
-            isha -= 100;
-        }
         String[] countryList = {
                 "فجر: " + fixFormatHHmm(fajr),
                 "شمس: " + fixFormatHHmm(sunrise),
@@ -233,5 +217,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 }
