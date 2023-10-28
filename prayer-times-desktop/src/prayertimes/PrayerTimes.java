@@ -74,7 +74,7 @@ public class PrayerTimes {
 		firstLine.setFont(firstLine.getFont().deriveFont(30f));
 		firstLine.setHorizontalAlignment(JLabel.RIGHT);
 		timeRemainingLabel = new JLabel();
-		timeRemainingLabel.setForeground(new Color(10,10,170));
+		timeRemainingLabel.setForeground(new Color(10, 10, 170));
 		timeRemainingLabel.setFont(timeRemainingLabel.getFont().deriveFont(100f));
 		timeRemainingLabel.setFont(new Font(Font.SERIF, 500, 100));
 		timeRemainingLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -82,10 +82,10 @@ public class PrayerTimes {
 		panel.add(firstLine);
 		panel.add(timeRemainingLabel);
 
-		JPanel times_panel = new JPanel();
-		times_panel.setBackground(new Color(245, 245, 220));
-		times_panel.setLayout(new GridLayout(0,4));
-		panel.add(times_panel);
+		JPanel timesPanel = new JPanel();
+		timesPanel.setBackground(new Color(245, 245, 220));
+		timesPanel.setLayout(new GridLayout(0, 4));
+		panel.add(timesPanel);
 		dayParts = new JLabel[12];
 		for (int i = 0; i < dayParts.length; i++) {
 			dayParts[i] = new JLabel();
@@ -95,48 +95,49 @@ public class PrayerTimes {
 				dayParts[i].setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 30));
 			else
 				dayParts[i].setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-			times_panel.add(dayParts[i]);
+			timesPanel.add(dayParts[i]);
 		}
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(dim.width / 3 - frame.getSize().width / 3, dim.height / 6 - frame.getSize().height / 6);
-		frame.setPreferredSize(new Dimension(400, 480));
 		frame.getContentPane().add(panel);
+		frame.pack();
+		frame.setPreferredSize(new Dimension(timesPanel.getWidth() * 4, 480));
 		frame.pack();
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
-			 @Override
-			         public void windowIconified(WindowEvent event)
-			         {
-				 		frame.dispose();
-				 		minGUI();
-			         }
-			 });
+			@Override
+			public void windowIconified(WindowEvent event) {
+				frame.dispose();
+				minGUI();
+			}
+		});
 	}
 
-	private void minGUI(){
-	    JPanel panel = new JPanel();
-	    timeRemainingLabel = new JLabel();
-	    timeRemainingLabel.setForeground(new Color(10,10,170));
+	private void minGUI() {
+		JPanel panel = new JPanel();
+		timeRemainingLabel = new JLabel();
+		timeRemainingLabel.setForeground(new Color(10, 10, 170));
 		timeRemainingLabel.setFont(new Font(Font.SERIF, 50, 20));
-	    panel.add(timeRemainingLabel);
-	    JDialog d = new JDialog();
-	    d.setPreferredSize(new Dimension(50, 30));
-	    d.setUndecorated(true);
-	    d.setAlwaysOnTop(true);
+		panel.add(timeRemainingLabel);
+		JDialog d = new JDialog();
+		d.setPreferredSize(new Dimension(50, 30));
+		d.setUndecorated(true);
+		d.setAlwaysOnTop(true);
 		d.add(panel);
 		d.pack();
 		d.setVisible(true);
 		timeRemainingLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            	d.dispose();
-            	myThread.interrupt();
-            	new PrayerTimes();
-            }
-        });
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				d.dispose();
+				myThread.interrupt();
+				new PrayerTimes();
+			}
+		});
 	}
 
 	private void onStartUp() {
@@ -228,9 +229,9 @@ public class PrayerTimes {
 	private void setNextPrayerInfo(int HHmm) {
 		String timeRemaining;
 		String s1 = "الوقت المتبقي ";
-        String s2 = "لأذان ";
-        String s3 = "";
-        String s4 = ":";
+		String s2 = "لأذان ";
+		String s3 = "";
+		String s4 = ":";
 
 		if (HHmm < fajr) {
 			timeRemaining = countDiff(fajr, HHmm);
@@ -238,7 +239,7 @@ public class PrayerTimes {
 		} else if (HHmm < sunrise) {
 			timeRemaining = countDiff(sunrise, HHmm);
 			s2 = "لطلوع ";
-            s3 = "الشمس";
+			s3 = "الشمس";
 		} else if (HHmm < zohar) {
 			timeRemaining = countDiff(zohar, HHmm);
 			s3 = "الظهر";
@@ -266,7 +267,7 @@ public class PrayerTimes {
 			}
 			timeRemaining = fixFormat(hour) + ":" + fixFormat(minute);
 			s3 = "فجر";
-            s4 = " يوم الغد:";
+			s4 = " يوم الغد:";
 		}
 		firstLine.setText(s1 + s2 + s3 + s4);
 		timeRemainingLabel.setText(timeRemaining);
