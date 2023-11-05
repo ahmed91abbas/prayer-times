@@ -108,22 +108,24 @@ public class PrayerTimes {
 			@Override
 			public void windowIconified(WindowEvent event) {
 				frame.dispose();
-				minGUI();
+				miniGUI();
 			}
 		});
 	}
 
-	private void minGUI() {
+	private void miniGUI() {
 		JPanel panel = new JPanel();
 		timeRemainingLabel = new JLabel();
 		timeRemainingLabel.setForeground(new Color(10, 10, 170));
 		timeRemainingLabel.setFont(new Font(Font.SERIF, 50, 20));
+		timeRemainingLabel.setText("99:99");
 		panel.add(timeRemainingLabel);
 		JDialog d = new JDialog();
-		d.setPreferredSize(new Dimension(50, 30));
 		d.setUndecorated(true);
 		d.setAlwaysOnTop(true);
 		d.add(panel);
+		d.pack();
+		d.setPreferredSize(new Dimension(panel.getWidth(), panel.getHeight()));
 		d.pack();
 		d.setVisible(true);
 		timeRemainingLabel.addMouseListener(new MouseAdapter() {
