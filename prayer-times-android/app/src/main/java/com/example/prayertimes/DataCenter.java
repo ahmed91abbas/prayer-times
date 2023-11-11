@@ -1,23 +1,32 @@
 package com.example.prayertimes;
 
-import java.util.HashMap;
+import android.content.Context;
+import android.content.SharedPreferences;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.HashMap;
 
 public class DataCenter {
 
     private HashMap<Integer, DayParts> data;
+    private final Context context;
+    private static final String CACHE_NAME = "PrayerTimesCache";
+    private static final String CACHE_KEY = "cachedData";
 
-    public DataCenter() {
+
+    public DataCenter(Context context) {
+        this.context = context;
+    }
+
+    public void init() {
         JSONObject jsonResponse = fetchPrayerTimes();
-        data = new HashMap<Integer, DayParts>();
+        data = new HashMap<>();
         fillDataCenter(jsonResponse);
     }
 
@@ -36,6 +45,7 @@ public class DataCenter {
                     response.append(inputLine);
                 }
                 in.close();
+                saveToCache(response.toString());
                 return new JSONObject(response.toString());
             } else {
                 System.out.println("HTTP GET request failed with response code: " + responseCode);
@@ -44,7 +54,28 @@ public class DataCenter {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+        System.out.println("Trying to fetch data from cache instead.");
+        return getCachedData();
+    }
+
+    private JSONObject getCachedData() {
+        SharedPreferences prefs = context.getSharedPreferences(CACHE_NAME, Context.MODE_PRIVATE);
+        String cachedDataString = prefs.getString(CACHE_KEY, null);
+        if (cachedDataString != null) {
+            try {
+                return new JSONObject(cachedDataString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
+    }
+
+    private void saveToCache(String data) {
+        SharedPreferences prefs = context.getSharedPreferences(CACHE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(CACHE_KEY, data);
+        editor.apply();
     }
 
     private void fillDataCenter(JSONObject jsonResponse) {

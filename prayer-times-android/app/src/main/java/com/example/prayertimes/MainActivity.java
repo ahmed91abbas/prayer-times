@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     private ListView scheduleList;
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView timeRemainingTextView;
     private TextView infoTextView;
 
-    private DataCenter dc;
+    private DataCenter dataCenter;
     private int month;
     private int day;
     private int fajr;
@@ -44,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         timeRemainingTextView = (TextView) findViewById(R.id.timeRemainingTextView);
         scheduleList = (ListView) findViewById(R.id.scheduleListView);
         scheduleList.setEnabled(false);
+        dataCenter = new DataCenter(this);
 
-        t = System.currentTimeMillis();
         myThread = new CountDownThread();
         myThread.start();
     }
@@ -59,10 +57,8 @@ public class MainActivity extends AppCompatActivity {
         day = Integer.parseInt(data[2]);
 
         int mdd = month * 100 + day;
-        System.out.println("key from main: " + mdd);
-        DayParts dp = dc.getDayParts(mdd);
+        DayParts dp = dataCenter.getDayParts(mdd);
         fajr = dp.getFajr();
-        System.out.println("fajr from main: " + fajr);
         sunrise = dp.getSunrise();
         zohar = dp.getZohar();
         asar = dp.getAsar();
@@ -185,14 +181,14 @@ public class MainActivity extends AppCompatActivity {
     private int getTimeToNextFajr() {
         int result;
         try {
-            DayParts parts = dc.getDayParts((month * 100) + (day + 1));
+            DayParts parts = dataCenter.getDayParts((month * 100) + (day + 1));
             result = parts.getFajr();
         } catch (Exception e) {
             int nextDay = 1;
             int nextMonth = month + 1;
             if (nextMonth == 13)
                 nextMonth = 1;
-            DayParts parts = dc.getDayParts(nextMonth * 100 + nextDay);
+            DayParts parts = dataCenter.getDayParts(nextMonth * 100 + nextDay);
             result = parts.getFajr();
         }
         return result;
@@ -201,8 +197,15 @@ public class MainActivity extends AppCompatActivity {
     class CountDownThread extends Thread {
         // @Override
         public void run() {
-            dc = new DataCenter();
+            dataCenter.init();
+            // Delay to make sure that the UI is ready to be updated
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             onStartUp();
+            t = System.currentTimeMillis();
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     doWork();
