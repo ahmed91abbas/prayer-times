@@ -101,7 +101,7 @@ public class PrayerTimes {
 		frame.setLocation(dim.width / 3 - frame.getSize().width / 3, dim.height / 6 - frame.getSize().height / 6);
 		frame.getContentPane().add(panel);
 		frame.pack();
-		frame.setPreferredSize(new Dimension(timesPanel.getWidth() * 4, 480));
+		frame.setPreferredSize(new Dimension(timesPanel.getWidth() * 4 + 6, 480));
 		frame.pack();
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
@@ -125,7 +125,7 @@ public class PrayerTimes {
 		d.setAlwaysOnTop(true);
 		d.add(panel);
 		d.pack();
-		d.setPreferredSize(new Dimension(panel.getWidth(), panel.getHeight()));
+		d.setPreferredSize(new Dimension(panel.getWidth() + 1, panel.getHeight()));
 		d.pack();
 		d.setVisible(true);
 		timeRemainingLabel.addMouseListener(new MouseAdapter() {
