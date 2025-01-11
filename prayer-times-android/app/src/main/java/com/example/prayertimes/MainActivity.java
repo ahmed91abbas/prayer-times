@@ -45,6 +45,9 @@ public class MainActivity extends Activity {
 
         myThread = new CountDownThread();
         myThread.start();
+
+        Thread cacheUpdateThread = new CacheUpdateThread();
+        cacheUpdateThread.start();
     }
 
     private void onStartUp() {
@@ -197,12 +200,6 @@ public class MainActivity extends Activity {
         // @Override
         public void run() {
             dataCenter.init();
-            // Delay to make sure that the UI is ready to be updated
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             onStartUp();
             t = System.currentTimeMillis();
             while (!Thread.currentThread().isInterrupted()) {
@@ -217,6 +214,14 @@ public class MainActivity extends Activity {
                     } catch (Exception e) {
                 }
             }
+        }
+    }
+
+    class CacheUpdateThread extends Thread {
+        // @Override
+        public void run() {
+            // run in background to update cache
+            dataCenter.fetchPrayerTimes();
         }
     }
 }

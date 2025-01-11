@@ -27,12 +27,16 @@ public class DataCenter {
     }
 
     public void init() {
-        JSONObject jsonResponse = fetchPrayerTimes();
+        JSONObject jsonResponse = getCachedData();
+        if (jsonResponse == null) {
+            System.out.println("Fetching data from the server.");
+            jsonResponse = fetchPrayerTimes();
+        }
         data = new HashMap<Integer, DayParts>();
         fillDataCenter(jsonResponse);
     }
 
-    private JSONObject fetchPrayerTimes() {
+    public JSONObject fetchPrayerTimes() {
         try {
             String url = "https://time.my-masjid.com/api/TimingsInfoScreen/GetMasjidTimings?GuidId=fb062588-16ad-4b6a-b4f9-5821e01b7f8f";
             URL apiUrl = new URL(url);
