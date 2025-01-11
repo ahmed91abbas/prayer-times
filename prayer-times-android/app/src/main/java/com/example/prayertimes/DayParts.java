@@ -40,5 +40,8 @@ public class DayParts {
     public int getIsha() {
         return isha;
     }
-}
 
+    public String toString() {
+        return  fajr + ", " + sunrise + ", " + zohar + ", " + asar + ", " + magrib + ", " + isha;
+    }
+}

@@ -1,9 +1,11 @@
 package com.example.prayertimes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -223,5 +225,20 @@ public class MainActivity extends Activity {
             // run in background to update cache
             dataCenter.fetchPrayerTimes();
         }
+    }
+
+    private void showPrayerTimesTable() {
+        Intent intent = new Intent(this, PrayerTimesActivity.class);
+        intent.putExtra("prayerTimesMap", dataCenter.prayerTimesMap);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            showPrayerTimesTable();
+            return true;
+        }
+        return super.onKeyLongPress(keyCode, event);
     }
 }

@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DataCenter {
 
-    private HashMap<Integer, DayParts> data;
+    public HashMap<Integer, DayParts> data;
+    public HashMap<Integer, ArrayList<ArrayList<String>>> prayerTimesMap;
     private final Context context;
     private static final String CACHE_NAME = "PrayerTimesCache";
     private static final String CACHE_KEY = "cachedData";
@@ -33,6 +35,7 @@ public class DataCenter {
             jsonResponse = fetchPrayerTimes();
         }
         data = new HashMap<Integer, DayParts>();
+        prayerTimesMap = new HashMap<Integer,ArrayList<ArrayList<String>>>();
         fillDataCenter(jsonResponse);
     }
 
@@ -99,6 +102,22 @@ public class DataCenter {
                         toInt(salahTiming.getString("isha"))
                 );
                 data.put(key, dp);
+                int newKey = salahTiming.getInt("month");
+                ArrayList<String> value = new ArrayList<String>();
+                value.add(String.valueOf(salahTiming.getInt("day")));
+                value.add(salahTiming.getString("fajr"));
+                value.add(salahTiming.getString("shouruq"));
+                value.add(salahTiming.getString("zuhr"));
+                value.add(salahTiming.getString("asr"));
+                value.add(salahTiming.getString("maghrib"));
+                value.add(salahTiming.getString("isha"));
+                if (prayerTimesMap.containsKey(newKey)) {
+                    prayerTimesMap.get(newKey).add(value);
+                } else {
+                    ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+                    list.add(value);
+                    prayerTimesMap.put(newKey, list);
+                }
             }
         } catch (Exception e) {
             System.out.println("Couldn't fill data center." + e.getMessage());
