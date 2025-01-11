@@ -28,29 +28,23 @@ public class MainActivity extends Activity {
     private int magrib;
     private int isha;
     private long diff, t;
-    private Thread myThread;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        dateTextView = (TextView) findViewById(R.id.dateTextView);
-        infoTextView = (TextView) findViewById(R.id.infoTextView);
-        timeRemainingTextView = (TextView) findViewById(R.id.timeRemainingTextView);
-        scheduleList = (ListView) findViewById(R.id.scheduleListView);
-        scheduleList.setEnabled(false);
+        setContentView(R.layout.loading_view);
         dataCenter = new DataCenter(this);
 
-        myThread = new CountDownThread();
-        myThread.start();
+        Thread timesThread = new CountDownThread();
+        timesThread.start();
 
         Thread cacheUpdateThread = new CacheUpdateThread();
         cacheUpdateThread.start();
     }
 
     private void onStartUp() {
+        dataCenter.init();
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         String date = sdf.format(c.getTime());
@@ -77,6 +71,12 @@ public class MainActivity extends Activity {
         };
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.scheduleTextView, countryList);
         runOnUiThread(() -> {
+            setContentView(R.layout.activity_main);
+            dateTextView = (TextView) findViewById(R.id.dateTextView);
+            infoTextView = (TextView) findViewById(R.id.infoTextView);
+            timeRemainingTextView = (TextView) findViewById(R.id.timeRemainingTextView);
+            scheduleList = (ListView) findViewById(R.id.scheduleListView);
+            scheduleList.setEnabled(false);
             dateTextView.setText(date);
             scheduleList.setAdapter(arrayAdapter);
             ListViewHelper.adjustListViewSize(scheduleList);
@@ -199,7 +199,6 @@ public class MainActivity extends Activity {
     class CountDownThread extends Thread {
         // @Override
         public void run() {
-            dataCenter.init();
             onStartUp();
             t = System.currentTimeMillis();
             while (!Thread.currentThread().isInterrupted()) {
