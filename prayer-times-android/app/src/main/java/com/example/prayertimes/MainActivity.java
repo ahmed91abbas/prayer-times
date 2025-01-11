@@ -148,15 +148,19 @@ public class MainActivity extends Activity {
             s3 = "فجر";
             s4 = " يوم الغد:";
         }
-        timeRemainingTextView.setText(timeRemaining);
+        runOnUiThread(() -> {
+            timeRemainingTextView.setText(timeRemaining);
+        });
 
         String info = s1 + s2 + s3 + s4;
         int startPos = (s1 + s2).length();
         int endPos = startPos + s3.length();
         SpannableString ss = new SpannableString(info);
         ss.setSpan(new RelativeSizeSpan(2f), startPos, endPos, 0);
-        infoTextView.setText(ss);
-        infoTextView.requestLayout();
+        runOnUiThread(() -> {
+            infoTextView.setText(ss);
+            infoTextView.requestLayout();
+        });
     }
 
     private String countDiff(int prayerTime, int currentTime) {
@@ -204,10 +208,7 @@ public class MainActivity extends Activity {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     doWork();
-                    t += 1000;
-                    diff = t - System.currentTimeMillis();
-                    if (diff > 0)
-                        Thread.sleep(diff);
+                    Thread.sleep(300);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     } catch (Exception e) {
