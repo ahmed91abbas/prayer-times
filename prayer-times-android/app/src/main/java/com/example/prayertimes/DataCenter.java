@@ -2,9 +2,11 @@ package com.example.prayertimes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,7 +28,7 @@ public class DataCenter {
 
     public void init() {
         JSONObject jsonResponse = fetchPrayerTimes();
-        data = new HashMap<>();
+        data = new HashMap<Integer, DayParts>();
         fillDataCenter(jsonResponse);
     }
 
